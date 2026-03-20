@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import PublicAnalytics from './pages/PublicAnalytics';
+import { API_ENDPOINTS } from './api';
 import './index.css';
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
   useEffect(() => {
     if (authToken) {
       setInitialLoading(true);
-      fetch('http://127.0.0.1:5000/api/me', {
+      fetch(API_ENDPOINTS.ME, {
         headers: { Authorization: `Bearer ${authToken}` }
       })
       .then(res => res.ok ? res.json() : Promise.reject('Invalid token'))

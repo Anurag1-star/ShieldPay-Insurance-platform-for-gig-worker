@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Shield, Users, Edit2, Check, AlertTriangle, LogOut, Search, BarChart2, TrendingUp, ArrowRight } from 'lucide-react';
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import type { Page } from '../types';
+import { API_ENDPOINTS } from '../api';
 
 interface AdminDashboardProps {
   navigate: (page: Page) => void;
@@ -28,9 +29,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ navigate, authToken }) 
       setLoading(true);
       setError('');
       const [usersRes, plansRes, statsRes] = await Promise.all([
-        fetch('http://127.0.0.1:5000/api/users', { headers: { Authorization: `Bearer ${authToken}` } }),
-        fetch('http://127.0.0.1:5000/api/plans'),
-        fetch('http://127.0.0.1:5000/api/admin/stats', { headers: { Authorization: `Bearer ${authToken}` } })
+        fetch(API_ENDPOINTS.USERS, { headers: { Authorization: `Bearer ${authToken}` } }),
+        fetch(API_ENDPOINTS.PLANS),
+        fetch(API_ENDPOINTS.ADMIN_STATS, { headers: { Authorization: `Bearer ${authToken}` } })
       ]);
       
       if (!usersRes.ok || !plansRes.ok || !statsRes.ok) {
@@ -87,7 +88,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ navigate, authToken }) 
         }
       };
 
-      const res = await fetch(`http://127.0.0.1:5000/api/users/${id}`, {
+      const res = await fetch(API_ENDPOINTS.USER_BY_ID(id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
         body: JSON.stringify(payload)
@@ -119,7 +120,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ navigate, authToken }) 
         isActive: editPlanForm.isActive !== undefined ? editPlanForm.isActive : true
       };
       
-      const res = await fetch(`http://127.0.0.1:5000/api/plans/${id}`, {
+      const res = await fetch(API_ENDPOINTS.PLAN_BY_ID(id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
         body: JSON.stringify(payload)

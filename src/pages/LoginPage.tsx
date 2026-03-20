@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Shield, Mail, Lock, AlertTriangle, ArrowRight } from 'lucide-react';
 import type { Page } from '../types';
+import { API_ENDPOINTS } from '../api';
 
 interface LoginPageProps {
   navigate: (page: Page) => void;
@@ -19,8 +20,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate, onLogin }) => {
     setLoading(true);
 
     try {
-      const endpoint = isRegister ? '/api/register' : '/api/login';
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const endpoint = isRegister ? API_ENDPOINTS.REGISTER : API_ENDPOINTS.LOGIN;
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

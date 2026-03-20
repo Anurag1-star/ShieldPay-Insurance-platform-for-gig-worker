@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Zap, AlertTriangle, Check, ArrowRight, Star } from 'lucide-react';
 import type { Page } from '../types';
+import { API_ENDPOINTS } from '../api';
 
 interface LandingPageProps {
   navigate: (page: Page) => void;
@@ -11,7 +12,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ navigate }) => {
   const [plans, setPlans] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/plans')
+    fetch(API_ENDPOINTS.PLANS)
       .then(res => res.json())
       .then(data => setPlans(data.sort((a: any, b: any) => a.weeklyPremium - b.weeklyPremium)))
       .catch(err => console.error('Failed to fetch plans', err));

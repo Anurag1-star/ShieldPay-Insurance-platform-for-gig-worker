@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, Users, Zap, TrendingUp, CheckCircle, Clock } from 'lucide-react';
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
+import { API_ENDPOINTS } from '../api';
 
 const PublicAnalytics: React.FC = () => {
   const [stats, setStats] = useState<any>(null);
@@ -8,7 +9,7 @@ const PublicAnalytics: React.FC = () => {
   useEffect(() => {
     // We'll fetch the public-facing version of stats
     // This endpoint does not require authentication
-    fetch('http://127.0.0.1:5000/api/public/stats')
+    fetch(API_ENDPOINTS.PUBLIC_STATS)
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(err => console.error('Failed to fetch public stats', err));
