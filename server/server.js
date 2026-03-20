@@ -14,11 +14,20 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB Connection
-// Note for user: Replace the placeholder URI with your actual MongoDB URI, or ensure local Mongo is running
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/shieldpay';
-mongoose.connect(MONGODB_URI)
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error('❌ CRITICAL: MONGODB_URI environment variable is not defined!');
+}
+
+mongoose.connect(MONGODB_URI || 'mongodb://127.0.0.1:27017/shieldpay')
   .then(() => console.log('✅ Connected to MongoDB server'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+  .catch(err => {
+    console.error('❌ MongoDB connection error details:', err.message);
+    if (err.message.includes('ECONNREFUSED')) {
+      console.error('💡 TIP: If this is on Vercel, ensure you have whitelisted all IPs (0.0.0.0/0) in MongoDB Atlas.');
+    }
+  });
 
 const JWT_SECRET = process.env.JWT_SECRET || 'shieldpay-super-secret-key-2026';
 
