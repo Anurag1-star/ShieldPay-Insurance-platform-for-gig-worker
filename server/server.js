@@ -13,6 +13,19 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Health Check for Debugging
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    env: {
+      has_mongo: !!process.env.MONGODB_URI,
+      has_jwt: !!process.env.JWT_SECRET,
+      node_env: process.env.NODE_ENV
+    }
+  });
+});
+
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI;
 
