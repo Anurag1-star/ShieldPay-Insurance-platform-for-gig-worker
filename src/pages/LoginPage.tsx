@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Mail, Lock, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Shield, AlertTriangle, ArrowRight } from 'lucide-react';
 import type { Page } from '../types';
 import { API_ENDPOINTS } from '../api';
 
